@@ -1,105 +1,80 @@
 function renderKPIs(datos){
 
-let corregidos = 0;
-let proceso = 0;
-let pendiente = 0;
-let suma = 0;
+    let corregidos = 0;
+    let proceso = 0;
+    let pendiente = 0;
+    let suma = 0;
 
-datos.forEach(d=>{
+    datos.forEach(d=>{
 
-const estatus =
-String(d.Estatus || "")
-.toLowerCase();
+        const estatus =
+        String(d.Estatus || "")
+        .toLowerCase();
 
-if(
-estatus.includes("correg")
-){
-corregidos++;
-}
-else if(
-estatus.includes("revision") ||
-estatus.includes("proceso")
-){
-proceso++;
-}
-else{
-pendiente++;
-}
+        if(estatus.includes("correg")){
+            corregidos++;
+        }
+        else if(
+            estatus.includes("revision") ||
+            estatus.includes("proceso")
+        ){
+            proceso++;
+        }
+        else{
+            pendiente++;
+        }
 
-suma += Number(
-d.PorcentajeCumplimiento || 0
-) * 100;
+        const valor =
+        Number(
+        d.PorcentajeCumplimiento || 0
+        );
 
-});
+        suma += valor <= 1
+            ? valor * 100
+            : valor;
 
-const total = datos.length;
+    });
 
-const cumplimiento =
-total
-?
-Math.round(suma / total)
-:
-0;
+    const total = datos.length;
 
-document.getElementById(
-"kTotal"
-).innerText = total;
+    const cumplimiento =
+    total
+    ? Math.round(suma / total)
+    : 0;
 
-document.getElementById(
-"kCorregidos"
-).innerText = corregidos;
+    kTotal.innerText=total;
+    kCorregidos.innerText=corregidos;
+    kProceso.innerText=proceso;
+    kCumplimiento.innerText=
+    cumplimiento + "%";
 
-document.getElementById(
-"kProceso"
-).innerText = proceso;
+    donutValue.innerText =
+    cumplimiento + "%";
 
-document.getElementById(
-"kCumplimiento"
-).innerText =
-cumplimiento + "%";
+    lCorregidos.innerText=
+    corregidos;
 
-document.getElementById(
-"donutValue"
-).innerText =
-cumplimiento + "%";
+    lProceso.innerText=
+    proceso;
 
-document.getElementById(
-"lCorregidos"
-).innerText =
-corregidos;
+    lPendiente.innerText=
+    pendiente;
 
-document.getElementById(
-"lProceso"
-).innerText =
-proceso;
+    const pCorregido =
+    total
+    ? (corregidos/total)*100
+    : 0;
 
-document.getElementById(
-"lPendiente"
-).innerText =
-pendiente;
+    const pProceso =
+    total
+    ? (proceso/total)*100
+    : 0;
 
-const pCorregido =
-total
-?
-(corregidos / total) * 100
-:
-0;
-
-const pProceso =
-total
-?
-(proceso / total) * 100
-:
-0;
-
-document.getElementById(
-"donutChart"
-).style.background =
-
-`conic-gradient(
- #22c55e 0% ${pCorregido}%,
- #f59e0b ${pCorregido}% ${pCorregido + pProceso}%,
- #ef4444 ${pCorregido + pProceso}% 100%
-)`;
+    donutChart.style.background =
+    `conic-gradient(
+        #22c55e 0% ${pCorregido}%,
+        #f59e0b ${pCorregido}% ${pCorregido+pProceso}%,
+        #ef4444 ${pCorregido+pProceso}% 100%
+    )`;
 
 }
