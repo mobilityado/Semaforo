@@ -1,98 +1,208 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Gestión ADO</title>
 
-https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap
+/css2?family=Inter:wght@300;400;500;600;700&display=swap">
 
-https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+/font-awesome/6.6.0/css/all.min.css">
 
-styles.css
+<link rels
 </head>
 
 <body>
 
-<div class="sidebar">
+<aside class="sidebar">
 
 <div class="logo">
+<i class="fa-solid fa-bus"></i>
 GESTIÓN <span>ADO</span>
 </div>
 
-<div class="menu">
+<nav class="menu">
 
-#
+<a class="active">
+<i class="fa-solid fa-chart-pie"></i>
+Dashboard
+</a>
 
-#
-<i class="fa-solid fa-list"></i>
+<a>
+<i class="fa-solid fa-list-check"></i>
 Hallazgos
 </a>
 
-#
+<a>
+<i class="fa-solid fa-building"></i>
+Terminales
+</a>
 
-#
+<a>
+<i class="fa-solid fa-file-lines"></i>
+Reportes
+</a>
 
-# onclick="cerrarSesion()">
+<a onclick="cerrarSesion()">
 <i class="fa-solid fa-right-from-bracket"></i>
 Salir
 </a>
 
+</nav>
+
+<div class="version">
+Control de Semáforos v2.0
 </div>
 
-</div>
+</aside>
 
-<div class="content">
+<main class="content">
 
-<div class="header">
+<header class="header">
 
 <div>
 <h1>Dashboard de Control Operativo</h1>
-<p>Seguimiento de Hallazgos</p>
+<p>Seguimiento de Hallazgos y Porcentajes de Cumplimiento</p>
 </div>
 
-<span id="lblRegion"
-class="region-badge"></span>
+<div class="usuario">
+
+<div class="avatar">
+MA
+</div>
+
+<span>Mobility ADO</span>
 
 </div>
 
-<div class="kpis">
+</header>
 
-<div class="kpi">
-<h3>Total Hallazgos</h3>
-<h1 id="kTotal">0</h1>
-</div>
+<section class="filters">
 
-<div class="kpi">
-<h3>Corregidos</h3>
-<h1 id="kCorregidos">0</h1>
-</div>
+<div>
 
-<div class="kpi">
-<h3>En Proceso</h3>
-<h1 id="kProceso">0</h1>
-</div>
+<label>TERMINAL / REGIÓN</label>
 
-<div class="kpi">
-<h3>Cumplimiento</h3>
-<h1 id="kCumplimiento">0%</h1>
-</div>
+<select id="region">
+
+<option>Villahermosa</option>
+<option>Coatzacoalcos</option>
+<option>Xalapa</option>
+
+</select>
 
 </div>
+
+<div>
+
+<label>ESTATUS SEMÁFORO</label>
+
+<select id="filtroEstatus">
+
+<option value="">
+-- Mostrar Todos --
+</option>
+
+<option value="corregido">
+Corregido
+</option>
+
+<option value="proceso">
+En Proceso
+</option>
+
+<option value="pendiente">
+Pendiente
+</option>
+
+</select>
+
+</div>
+
+<button class="btn-limpiar">
+<i class="fa-solid fa-filter-circle-xmark"></i>
+Limpiar Filtros
+</button>
+
+</section>
+
+<section class="kpis">
+
+<div class="card purple">
+
+<div>
+<h4>Total Hallazgos</h4>
+<h2 id="kTotal">0</h2>
+</div>
+
+<div class="icon">
+<i class="fa-solid fa-clipboard-list"></i>
+</div>
+
+</div>
+
+<div class="card green">
+
+<div>
+<h4>Corregidos</h4>
+<h2 id="kCorregidos">0</h2>
+</div>
+
+<div class="icon">
+<i class="fa-solid fa-circle-check"></i>
+</div>
+
+</div>
+
+<div class="card yellow">
+
+<div>
+<h4>En Proceso</h4>
+<h2 id="kProceso">0</h2>
+</div>
+
+<div class="icon">
+<i class="fa-solid fa-spinner"></i>
+</div>
+
+</div>
+
+<div class="card pink">
+
+<div>
+<h4>Cumplimiento General</h4>
+<h2 id="kCumplimiento">0%</h2>
+</div>
+
+<div class="icon">
+<i class="fa-solid fa-gauge-high"></i>
+</div>
+
+</div>
+
+</section>
+
+<section class="dashboard-grid">
 
 <div class="chart-card">
 
-<h2>Avance de Metas Operativas</h2>
+<h3>Avance de Metas Operativas</h3>
 
-<div class="donut-wrapper">
+<div class="donut-section">
 
-<div class="donut" id="donutChart">
+<div id="donutChart" class="donut">
 
 <div class="donut-center">
-<span id="donutValue">0%</span>
-<small>CUMPLIMIENTO</small>
+
+<span id="donutValue">
+0%
+</span>
+
+<small>CERRADO</small>
+
+</div>
+
 </div>
 
 </div>
@@ -100,20 +210,20 @@ class="region-badge"></span>
 <div class="legend">
 
 <div>
-<span class="box green"></span>
-Corregidos:
+<span class="box green-box"></span>
+Corregido
 <b id="lCorregidos">0</b>
 </div>
 
 <div>
-<span class="box yellow"></span>
-En Proceso:
+<span class="box yellow-box"></span>
+En Proceso
 <b id="lProceso">0</b>
 </div>
 
 <div>
-<span class="box red"></span>
-Pendientes:
+<span class="box red-box"></span>
+Sin Realizar
 <b id="lPendiente">0</b>
 </div>
 
@@ -121,123 +231,40 @@ Pendientes:
 
 </div>
 
-</div>
-
-<div class="filters">
-
-<input
-type="text"
-id="buscar"
-placeholder="Buscar hallazgo...">
-
-<button onclick="cargarDatos()">
-Actualizar
-</button>
-
-</div>
-
 <div class="table-card">
+
+<h3>Listado de Hallazgos y Acciones</h3>
 
 <table>
 
 <thead>
+
 <tr>
+
 <th>Folio</th>
-<th>Área</th>
-<th>Hallazgo</th>
+<th>Terminal</th>
+<th>Descripción</th>
+<th>Fecha</th>
+<th>% Cumpl.</th>
 <th>Estatus</th>
-<th>%</th>
+
 </tr>
+
 </thead>
 
 <tbody id="tabla">
+
 </tbody>
 
 </table>
 
 </div>
 
-</div>
+</section>
+
+</main>
 
 app.js
-
-<script>
-
-const API_URL =
-"https://script.google.com/macros/s/AKfycbzqvMLALL51yOTtIc9eqJCrasFYYMRRz3Br8ElYCfQjke-S2f2GHhXkIiONrGV0VltX/exec";
-
-document.getElementById(
-"lblRegion"
-).innerText =
-localStorage.getItem("region") ||
-"Sin Región";
-
-function cerrarSesion(){
- localStorage.clear();
- location.href="index.html";
-}
-
-async function cargarDatos(){
-
- const region =
- localStorage.getItem("region");
-
- const response =
- await fetch(
- `${API_URL}?accion=consultar&region=${region}`
- );
-
- const datos =
- await response.json();
-
- renderKPIs(datos);
-
- const tabla =
- document.getElementById("tabla");
-
- tabla.innerHTML="";
-
- datos.forEach(item=>{
-
- let clase="pendiente";
-
- const estatus =
- String(item.Estatus||"")
- .toLowerCase();
-
- if(estatus.includes("correg")){
-     clase="ok";
- }
- else if(
- estatus.includes("revision")
- ){
-     clase="proceso";
- }
-
- tabla.innerHTML += `
- <tr>
- <td>${item.Folio||''}</td>
- <td>${item.Area||''}</td>
- <td>${item.Hallazgo||''}</td>
- <td>
- <span class="badge ${clase}">
- ${item.Estatus||''}
- </span>
- </td>
- <td>
- ${Math.round(
- (Number(item.PorcentajeCumplimiento||0)*100)
- )}%
- </td>
- </tr>
- `;
- });
-
-}
-
-cargarDatos();
-
-</script>
 
 </body>
 </html>
