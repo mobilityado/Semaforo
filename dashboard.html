@@ -1,26 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>Dashboard GESTIÓN ADO</title>
+<title>Gestión ADO</title>
 
-https://fonts.googleapis.com
-https://fonts.gstatic.com
+.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<link href="https://fonts.googleapis.com/css2?family=00;400;500;600;700&display=swap
-
-<link rel="stylesheet"
-href="https:/bs/font-awesome/6.6.0/css/all.min.css
+https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
 <style>
 
 :root{
---primary:#5b1b70;
---accent:#e2007a;
+--purple:#5b1b70;
+--pink:#e2007a;
 --bg:#f4f6f9;
---white:#fff;
 --success:#22c55e;
 --warning:#f59e0b;
 --danger:#ef4444;
@@ -37,169 +34,196 @@ body{
 background:var(--bg);
 }
 
+.login-screen{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.login-card{
+background:white;
+padding:40px;
+width:420px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,.1);
+}
+
+.login-card h1{
+color:var(--purple);
+margin-bottom:20px;
+}
+
+.login-card select,
+.login-card button{
+width:100%;
+padding:14px;
+margin-top:10px;
+border-radius:10px;
+}
+
+.login-card button{
+background:var(--purple);
+color:white;
+border:none;
+cursor:pointer;
+}
+
+#dashboard{
+display:none;
+}
+
 .sidebar{
 position:fixed;
-left:0;
-top:0;
-width:250px;
+width:260px;
 height:100vh;
-background:var(--primary);
-color:#fff;
+background:var(--purple);
+color:white;
 }
 
 .logo{
 padding:25px;
-font-size:30px;
+font-size:28px;
 font-weight:700;
 }
 
 .logo span{
-color:var(--accent);
-}
-
-.menu{
-margin-top:25px;
+color:var(--pink);
 }
 
 .menu a{
 display:flex;
-align-items:center;
 gap:12px;
 padding:18px 25px;
 color:white;
 text-decoration:none;
-transition:.3s;
 }
 
 .menu a:hover{
-background:rgba(255,255,255,.1);
+background:rgba(255,255,255,.08);
 }
 
-.main{
-margin-left:250px;
-padding:30px;
+.content{
+margin-left:260px;
+padding:25px;
 }
 
 .header{
 background:white;
-padding:25px;
 border-radius:15px;
+padding:25px;
+margin-bottom:25px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:25px;
 }
 
 .header h1{
-color:var(--primary);
-font-size:40px;
+color:var(--purple);
 }
 
-.region{
-padding:10px 20px;
-background:var(--primary);
+.region-badge{
+background:var(--purple);
 color:white;
-border-radius:25px;
-font-weight:600;
+padding:10px 15px;
+border-radius:30px;
 }
 
 .kpis{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
 gap:20px;
 margin-bottom:25px;
 }
 
 .kpi{
 background:white;
-padding:25px;
-border-radius:16px;
-border-bottom:4px solid var(--primary);
+padding:20px;
+border-radius:15px;
+border-bottom:4px solid var(--purple);
 }
 
 .kpi h3{
-font-size:15px;
+font-size:14px;
 color:#666;
 margin-bottom:10px;
 }
 
-.kpi h2{
-font-size:40px;
-}
-
-.layout{
-display:grid;
-grid-template-columns:350px 1fr;
-gap:20px;
-}
-
-.card{
-background:white;
-border-radius:16px;
-padding:25px;
-}
-
-.card h2{
-color:var(--primary);
-margin-bottom:20px;
-font-size:20px;
-}
-
-.donut{
-width:220px;
-height:220px;
-margin:auto;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-background:
-conic-gradient(
-var(--success) 0% 0%,
-var(--warning) 0% 0%,
-var(--danger) 0% 100%
-);
-}
-
-.donut-inner{
-width:140px;
-height:140px;
-background:white;
-border-radius:50%;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-}
-
-.donut-inner span{
+.kpi h1{
 font-size:36px;
-font-weight:700;
+}
+<div class="chart-card">
+
+    <h2>Avance de Metas Operativas</h2>
+
+    <div class="donut-wrapper">
+
+        <div class="donut" id="donutChart">
+
+            <div class="donut-center">
+
+                <span id="donutValue">0%</span>
+                <small>CERRADO</small>
+
+            </div>
+
+        </div>
+
+        <div class="legend">
+
+            <div>
+                <span class="box green"></span>
+                Corregido:
+                <b id="lCorregidos">0</b>
+            </div>
+
+            <div>
+                <span class="box yellow"></span>
+                En Proceso:
+                <b id="lProceso">0</b>
+            </div>
+
+            <div>
+                <span class="box red"></span>
+                Sin Realizar:
+                <b id="lPendiente">0</b>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+.filters{
+background:white;
+padding:20px;
+border-radius:15px;
+margin-bottom:25px;
+display:grid;
+grid-template-columns:1fr 250px;
+gap:15px;
 }
 
-.legend{
-margin-top:25px;
-display:flex;
-flex-direction:column;
-gap:12px;
+.filters button{
+background:var(--pink);
+color:white;
+border:none;
+border-radius:10px;
+cursor:pointer;
 }
 
-.legend-item{
-display:flex;
-justify-content:space-between;
+.table-card{
+background:white;
+border-radius:15px;
+padding:20px;
 }
-
-.box{
-width:15px;
-height:15px;
-display:inline-block;
-margin-right:8px;
-border-radius:4px;
-}
-
-.green{background:var(--success);}
-.yellow{background:var(--warning);}
-.red{background:var(--danger);}
 
 table{
 width:100%;
@@ -207,7 +231,7 @@ border-collapse:collapse;
 }
 
 th{
-background:#f7f7f7;
+background:#f4f4f4;
 padding:12px;
 text-align:left;
 }
@@ -218,7 +242,7 @@ border-bottom:1px solid #eee;
 }
 
 .badge{
-padding:5px 12px;
+padding:6px 12px;
 border-radius:20px;
 font-size:12px;
 font-weight:600;
@@ -229,75 +253,89 @@ background:#dcfce7;
 color:#166534;
 }
 
-.warning{
+.proceso{
 background:#fef3c7;
 color:#92400e;
 }
 
-.danger{
+.pendiente{
 background:#fee2e2;
 color:#991b1b;
 }
 
-@media(max-width:1100px){
-
-.layout{
-grid-template-columns:1fr;
-}
-
-.sidebar{
-display:none;
-}
-
-.main{
-margin-left:0;
-}
-
-}
-
 </style>
+
 </head>
 
 <body>
 
+<!-- LOGIN REGION -->
+
+<div id="selector" class="login-screen">
+
+<div class="login-card">
+
+<h1>GESTIÓN ADO</h1>
+
+<p>Seleccione su región</p>
+
+<select id="region">
+
+<option>Villahermosa</option>
+<option>Coatzacoalcos</option>
+<option>Cárdenas</option>
+<option>Xalapa</option>
+<option>Veracruz</option>
+<option>Teapa</option>
+<option>Tuxtla</option>
+
+</select>
+
+<button onclick="entrar()">
+
+Ingresar
+
+</button>
+
+</div>
+
+</div>
+
+<!-- DASHBOARD -->
+
+<div id="dashboard">
+
 <div class="sidebar">
 
 <div class="logo">
+
 GESTIÓN <span>ADO</span>
+
 </div>
 
 <div class="menu">
 
-#
-<i class="fas fa-chart-pie"></i>
-Dashboard
-</a>
+#<i class="fa fa-chart-line"></i>Dashboard</a>
+
+#<i class="fa fa-list"></i>Hallazgos</a>
+
+#<i class="fa fa-building"></i>Terminales</a>
+
+#<i class="fa fa-file"></i>Reportes</a>
 
 #
-<i class="fas fa-list"></i>
-Hallazgos
-</a>
 
-#
-<i class="fas fa-building"></i>
-Terminales
-</a>
+<i class="fa fa-right-from-bracket"></i>
 
-#
-<i class="fas fa-file-alt"></i>
-Reportes
-</a>
-
-<a href="index.html">
-<i class="fas fa-right-from-bracket"></i>
 Salir
+
 </a>
 
 </div>
 
 </div>
 
-<div class="main">
+<div class="content">
 
 <div class="header">
 
@@ -305,17 +343,14 @@ Salir
 
 <h1>Dashboard de Control Operativo</h1>
 
-<p>
-Seguimiento de Hallazgos y Cumplimiento
-</p>
+<p>Seguimiento de Hallazgos</p>
 
 </div>
 
-<div
-class="region"
-id="lblRegion">
-Región
-</div>
+<span
+id="lblRegion"
+class="region-badge">
+</span>
 
 </div>
 
@@ -323,97 +358,62 @@ Región
 
 <div class="kpi">
 <h3>Total Hallazgos</h3>
-<h2 id="total">0</h2>
+<h1 id="kTotal">0</h1>
 </div>
 
 <div class="kpi">
 <h3>Corregidos</h3>
-<h2 id="corregidos">0</h2>
+<h1 id="kCorregidos">0</h1>
 </div>
 
 <div class="kpi">
-<h3>En Revisión</h3>
-<h2 id="proceso">0</h2>
+<h3>En Proceso</h3>
+<h1 id="kProceso">0</h1>
 </div>
 
 <div class="kpi">
 <h3>Cumplimiento</h3>
-<h2 id="cumplimiento">0%</h2>
+<h1 id="kCumplimiento">0%</h1>
 </div>
 
 </div>
 
-<div class="layout">
+<div class="filters">
 
-<div class="card">
+<input
+type="text"
+id="buscar"
+placeholder="Buscar hallazgo...">
 
-<h2>Avance de Metas Operativas</h2>
+<button onclick="cargarDatos()">
 
-<div
-class="donut"
-id="donutChart">
+Actualizar
 
-<div class="donut-inner">
-
-<span id="donutValue">
-0%
-</span>
-
-<small>CERRADO</small>
+</button>
 
 </div>
 
-</div>
-
-<div class="legend">
-
-<div class="legend-item">
-<span>
-<span class="box green"></span>
-Corregido
-</span>
-<b id="cCorregidos">0</b>
-</div>
-
-<div class="legend-item">
-<span>
-<span class="box yellow"></span>
-En Proceso
-</span>
-<b id="cProceso">0</b>
-</div>
-
-<div class="legend-item">
-<span>
-<span class="box red"></span>
-Sin Realizar
-</span>
-<b id="cPendiente">0</b>
-</div>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<h2>Listado de Hallazgos</h2>
+<div class="table-card">
 
 <table>
 
 <thead>
 
 <tr>
+
 <th>Folio</th>
 <th>Área</th>
 <th>Hallazgo</th>
 <th>Estatus</th>
 <th>%</th>
+
 </tr>
 
 </thead>
 
-<tbody id="tabla"></tbody>
+<tbody id="tabla">
+
+</tbody>
 
 </table>
 
@@ -425,151 +425,183 @@ Sin Realizar
 
 <script>
 
-const API =
+const API_URL =
 "https://script.google.com/macros/s/AKfycbzqvMLALL51yOTtIc9eqJCrasFYYMRRz3Br8ElYCfQjke-S2f2GHhXkIiONrGV0VltX/exec";
+
+function entrar(){
+
+const region =
+document.getElementById("region").value;
+
+localStorage.setItem(
+"region",
+region
+);
+
+mostrarDashboard();
+
+}
+
+function cerrarSesion(){
+
+localStorage.removeItem("region");
+
+location.reload();
+
+}
+
+function mostrarDashboard(){
 
 const region =
 localStorage.getItem("region");
 
+if(!region)return;
+
+document.getElementById(
+"selector"
+).style.display="none";
+
+document.getElementById(
+"dashboard"
+).style.display="block";
+
 document.getElementById(
 "lblRegion"
-).innerText = region || '';
+).innerText=region;
 
 cargarDatos();
 
+}
+
 async function cargarDatos(){
 
+const region =
+localStorage.getItem("region");
+
+const url =
+`${API_URL}?accion=consultar&region=${region}`;
+
 const response =
-await fetch(
-`${API}?accion=consultar&region=${region}`
-);
+await fetch(url);
 
 const datos =
 await response.json();
 
-renderDashboard(datos);
-
-}
-
-function renderDashboard(datos){
+renderKPIs(datos);
 
 const tabla =
 document.getElementById("tabla");
 
 tabla.innerHTML="";
 
-let corregidos=0;
-let proceso=0;
-let pendiente=0;
-let suma=0;
-
 datos.forEach(item=>{
 
-const estatus =
-String(item.Estatus || "")
-.toLowerCase();
+let clase="pendiente";
 
-let clase="danger";
+const estatus =
+String(item.Estatus || "");
 
 if(
-estatus.includes("correg")
+estatus.toLowerCase()
+.includes("correg")
 ){
 clase="ok";
-corregidos++;
 }
 else if(
-estatus.includes("revision")
-||
-estatus.includes("proceso")
+estatus.toLowerCase()
+.includes("revision")
 ){
-clase="warning";
-proceso++;
+clase="proceso";
 }
-else{
-pendiente++;
-}
-
-suma +=
-(Number(
-item.PorcentajeCumplimiento || 0
-) * 100);
 
 tabla.innerHTML += `
+
 <tr>
 
-<td>${item.Folio || ''}</td>
+<td>${item.Folio||''}</td>
 
-<td>${item.Area || ''}</td>
+<td>${item.Area||''}</td>
 
-<td>${item.Hallazgo || ''}</td>
+<td>${item.Hallazgo||''}</td>
 
 <td>
+
 <span class="badge ${clase}">
-${item.Estatus || ''}
+${item.Estatus||''}
 </span>
+
 </td>
 
 <td>
+
 ${Math.round(
-(Number(
-item.PorcentajeCumplimiento || 0
-)*100)
+(Number(item.PorcentajeCumplimiento||0)*100)
 )}%
+
 </td>
 
 </tr>
+
 `;
 
 });
 
-const total =
-datos.length;
+}
 
-const promedio =
-total
-?
-Math.round(
-suma/total
-)
-:
-0;
-
-document.getElementById("total").innerText = total;
-document.getElementById("corregidos").innerText = corregidos;
-document.getElementById("proceso").innerText = proceso;
-document.getElementById("cumplimiento").innerText = promedio + "%";
-
-document.getElementById("donutValue").innerText = promedio + "%";
-
-document.getElementById("cCorregidos").innerText = corregidos;
-document.getElementById("cProceso").innerText = proceso;
-document.getElementById("cPendiente").innerText = pendiente;
-
-const p1 =
-total
-?
-(corregidos/total)*100
-:
-0;
-
-const p2 =
-total
-?
-(proceso/total)*100
-:
-0;
+function renderKPIs(datos){
 
 document.getElementById(
-"donutChart"
-).style.background =
+"kTotal"
+).innerText=
+datos.length;
 
-`conic-gradient(
-#22c55e 0% ${p1}%,
-#f59e0b ${p1}% ${p1+p2}%,
-#ef4444 ${p1+p2}% 100%
-)`;
+let corregidos=0;
+let proceso=0;
+let suma=0;
+
+datos.forEach(d=>{
+
+const est=
+String(d.Estatus||"")
+.toLowerCase();
+
+if(est.includes("correg"))
+corregidos++;
+
+if(est.includes("revision"))
+proceso++;
+
+suma +=
+Number(
+d.PorcentajeCumplimiento||0
+)*100;
+
+});
+
+document.getElementById(
+"kCorregidos"
+).innerText=
+corregidos;
+
+document.getElementById(
+"kProceso"
+).innerText=
+proceso;
+
+document.getElementById(
+"kCumplimiento"
+).innerText=
+datos.length
+?
+Math.round(
+suma/datos.length
+)+"%"
+:
+"0%";
 
 }
+
+mostrarDashboard();
 
 </script>
 
