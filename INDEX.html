@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Gestión ADO</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f4f4f4;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.card{
+background:white;
+padding:30px;
+width:400px;
+border-radius:15px;
+box-shadow:0 0 15px rgba(0,0,0,.1);
+}
+
+h1{
+color:#5b1b70;
+margin-bottom:20px;
+}
+
+select,
+button{
+width:100%;
+padding:12px;
+margin-top:10px;
+}
+
+button{
+background:#5b1b70;
+color:white;
+border:none;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="card">
+
+<h1>Gestión ADO</h1>
+
+<select id="region">
+
+<option>Villahermosa</option>
+<option>Coatzacoalcos</option>
+<option>Cárdenas</option>
+<option>Xalapa</option>
+<option>Veracruz</option>
+<option>Teapa</option>
+<option>Tuxtla</option>
+
+</select>
+
+<button onclick="entrar()">
+Ingresar
+</button>
+
+</div>
+
+<script>
+
+function entrar(){
+
+const region =
+document.getElementById("region").value;
+
+localStorage.setItem(
+"region",
+region
+);
+
+location.href =
+"dashboard.html";
+
+}
+
+</script>
+
+</body>
+</html>
