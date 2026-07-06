@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Gestión ADO</title>
 
-/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+.googleapis.com">
+fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
 
-/font-awesome/6.6.0/css/all.min.css">
+-awesome/6.6.0/css/all.min.css">
 
-<link rels
-</head>
+<link rel="</head>
 
 <body>
 
@@ -44,16 +45,12 @@ Terminales
 Reportes
 </a>
 
-<a onclick="cerrarSesion()">
+#
 <i class="fa-solid fa-right-from-bracket"></i>
 Salir
 </a>
 
 </nav>
-
-<div class="version">
-Control de Semáforos v2.0
-</div>
 
 </aside>
 
@@ -63,145 +60,53 @@ Control de Semáforos v2.0
 
 <div>
 <h1>Dashboard de Control Operativo</h1>
-<p>Seguimiento de Hallazgos y Porcentajes de Cumplimiento</p>
+<p>Seguimiento de Hallazgos</p>
 </div>
 
 <div class="usuario">
-
-<div class="avatar">
-MA
-</div>
-
-<span>Mobility ADO</span>
-
+<div class="avatar">MA</div>
+<span id="lblRegion"></span>
 </div>
 
 </header>
 
-<section class="filters">
-
-<div>
-
-<label>TERMINAL / REGIÓN</label>
-
-<select id="region">
-
-<option>Villahermosa</option>
-<option>Coatzacoalcos</option>
-<option>Xalapa</option>
-
-</select>
-
-</div>
-
-<div>
-
-<label>ESTATUS SEMÁFORO</label>
-
-<select id="filtroEstatus">
-
-<option value="">
--- Mostrar Todos --
-</option>
-
-<option value="corregido">
-Corregido
-</option>
-
-<option value="proceso">
-En Proceso
-</option>
-
-<option value="pendiente">
-Pendiente
-</option>
-
-</select>
-
-</div>
-
-<button class="btn-limpiar">
-<i class="fa-solid fa-filter-circle-xmark"></i>
-Limpiar Filtros
-</button>
-
-</section>
-
 <section class="kpis">
 
 <div class="card purple">
-
-<div>
 <h4>Total Hallazgos</h4>
 <h2 id="kTotal">0</h2>
 </div>
 
-<div class="icon">
-<i class="fa-solid fa-clipboard-list"></i>
-</div>
-
-</div>
-
 <div class="card green">
-
-<div>
 <h4>Corregidos</h4>
 <h2 id="kCorregidos">0</h2>
 </div>
 
-<div class="icon">
-<i class="fa-solid fa-circle-check"></i>
-</div>
-
-</div>
-
 <div class="card yellow">
-
-<div>
 <h4>En Proceso</h4>
 <h2 id="kProceso">0</h2>
 </div>
 
-<div class="icon">
-<i class="fa-solid fa-spinner"></i>
-</div>
-
-</div>
-
 <div class="card pink">
-
-<div>
-<h4>Cumplimiento General</h4>
+<h4>Cumplimiento</h4>
 <h2 id="kCumplimiento">0%</h2>
-</div>
-
-<div class="icon">
-<i class="fa-solid fa-gauge-high"></i>
-</div>
-
 </div>
 
 </section>
 
-<section class="dashboard-grid">
+<div class="dashboard-grid">
 
 <div class="chart-card">
 
 <h3>Avance de Metas Operativas</h3>
 
-<div class="donut-section">
-
-<div id="donutChart" class="donut">
+<div class="donut" id="donutChart">
 
 <div class="donut-center">
 
-<span id="donutValue">
-0%
-</span>
+<span id="donutValue">0%</span>
 
 <small>CERRADO</small>
-
-</div>
 
 </div>
 
@@ -223,7 +128,7 @@ En Proceso
 
 <div>
 <span class="box red-box"></span>
-Sin Realizar
+Pendiente
 <b id="lPendiente">0</b>
 </div>
 
@@ -233,38 +138,42 @@ Sin Realizar
 
 <div class="table-card">
 
-<h3>Listado de Hallazgos y Acciones</h3>
+<h3>Listado de Hallazgos</h3>
 
 <table>
 
 <thead>
-
 <tr>
-
 <th>Folio</th>
-<th>Terminal</th>
-<th>Descripción</th>
-<th>Fecha</th>
-<th>% Cumpl.</th>
+<th>Área</th>
+<th>Hallazgo</th>
 <th>Estatus</th>
-
+<th>%</th>
 </tr>
-
 </thead>
 
 <tbody id="tabla">
-
 </tbody>
 
 </table>
 
 </div>
 
-</section>
+</div>
 
 </main>
 
 app.js
+
+<script>
+document.getElementById("lblRegion").innerText =
+localStorage.getItem("region") || "Villahermosa";
+
+function cerrarSesion(){
+localStorage.clear();
+location.href="index.html";
+}
+</script>
 
 </body>
 </html>
