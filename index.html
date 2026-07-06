@@ -2,59 +2,60 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gestión ADO</title>
 
-<style>
+https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap
 
+<style>
 body{
-font-family:Arial;
-background:#f4f4f4;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
+    font-family:'Inter',sans-serif;
+    background:#f4f6f9;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
 }
 
 .card{
-background:white;
-padding:30px;
-width:400px;
-border-radius:15px;
-box-shadow:0 0 15px rgba(0,0,0,.1);
+    background:white;
+    padding:40px;
+    width:420px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,.1);
 }
 
 h1{
-color:#5b1b70;
-margin-bottom:20px;
+    color:#5b1b70;
+    margin-bottom:20px;
 }
 
 select,
 button{
-width:100%;
-padding:12px;
-margin-top:10px;
+    width:100%;
+    padding:14px;
+    margin-top:12px;
+    border-radius:10px;
 }
 
 button{
-background:#5b1b70;
-color:white;
-border:none;
-cursor:pointer;
+    background:#5b1b70;
+    color:white;
+    border:none;
+    cursor:pointer;
 }
-
 </style>
-
 </head>
+
 <body>
 
 <div class="card">
 
-<h1>Gestión ADO</h1>
+<h1>GESTIÓN ADO</h1>
+
+<p>Seleccione su región</p>
 
 <select id="region">
-
 <option>Villahermosa</option>
 <option>Coatzacoalcos</option>
 <option>Cárdenas</option>
@@ -62,7 +63,6 @@ cursor:pointer;
 <option>Veracruz</option>
 <option>Teapa</option>
 <option>Tuxtla</option>
-
 </select>
 
 <button onclick="entrar()">
@@ -72,22 +72,18 @@ Ingresar
 </div>
 
 <script>
-
 function entrar(){
+    const region =
+    document.getElementById("region").value;
 
-const region =
-document.getElementById("region").value;
+    localStorage.setItem(
+        "region",
+        region
+    );
 
-localStorage.setItem(
-"region",
-region
-);
-
-location.href =
-"dashboard.html";
-
+    location.href =
+    "DASHBOARD.html";
 }
-
 </script>
 
 </body>
