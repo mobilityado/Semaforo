@@ -7,11 +7,22 @@ async function apiRequest(params={}){
     const response=await fetch(`${API_URL}?${query}`);
     if(!response.ok)throw new Error('Error de conexión');
     return await response.json();
-  }catch(e){console.error(e);toast('No fue posible conectar con Google Sheets','error');return[]}
+  }catch(e){
+    console.error(e);
+    toast('No fue posible conectar con Google Sheets','error');
+    return [];
+  }
 }
 
 async function obtenerHallazgos(region){
   if(region==='GERENCIA'){
+    // Primero intenta pedir TODAS las pestañas en una sola consulta.
+    // Si tu Apps Script no tiene todavía esa mejora, usa el respaldo por región.
+    const todas=await apiRequest({accion:'consultar',region:'TODAS'});
+    if(Array.isArray(todas) && todas.length){
+      return todas.map(x=>({...x,Region:x.Region||x.region||x.__Hoja||''}));
+    }
+
     const resultados=await Promise.all(
       REGIONES.map(async r=>{
         const lista=await apiRequest({accion:'consultar',region:r});
@@ -20,19 +31,19 @@ async function obtenerHallazgos(region){
     );
     return resultados.flat();
   }
+
   return await apiRequest({accion:'consultar',region});
 }
 
 async function crearHallazgo(data){
   const payload={accion:'nuevo',...data};
-  const res=await apiRequest(payload);
-  return res;
+  return await apiRequest(payload);
 }
 
 function normalizar(item){return{
   Folio:item.Folio||item.folio||'',
-  Region:item.Region||item.region||'',
-  Terminal:item.Terminal||item.terminal||item.Region||item.region||'',
+  Region:item.Region||item.region||item.__Hoja||'',
+  Terminal:item.Terminal||item.terminal||item.Region||item.region||item.__Hoja||'',
   Area:item.Area||item.Área||item.area||'',
   Hallazgo:item.Hallazgo||item.hallazgo||item.Descripcion||item.Descripción||'',
   Responsable:item.Responsable||item.responsable||'',
@@ -46,5 +57,5 @@ function calcularKPIs(datos){let corregidos=0,proceso=0,pendientes=0,suma=0;dato
 function terminalesUnicas(datos){return[...new Set(datos.map(d=>d.Terminal||'Sin terminal'))].sort()}
 function buscarHallazgos(datos,texto){if(!texto)return datos;texto=texto.toLowerCase();return datos.filter(d=>[d.Folio,d.Region,d.Terminal,d.Area,d.Hallazgo,d.Responsable,d.Estatus].some(v=>String(v||'').toLowerCase().includes(texto)))}
 function filtrarEstado(datos,estado){if(!estado||estado==='Todos los estados')return datos;return datos.filter(d=>String(d.Estatus||'').toLowerCase().includes(estado.toLowerCase().replace('en ','')))}
-function filtrarRegion(datos,region){if(!region||region==='-- Mostrar Todas --')return datos;return datos.filter(d=>String(d.Region||'')===region)}
+function filtrarRegion(datos,region){if(!region||region==='-- Mostrar Todas --')return datos;return datos.filter(d=>String(d.Region||'').toLowerCase()===String(region).toLowerCase())}
 function filtrarTerminal(datos,terminal){if(!terminal||terminal==='Todas las terminales')return datos;return datos.filter(d=>(d.Terminal||'Sin terminal')===terminal)}

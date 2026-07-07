@@ -1,29 +1,19 @@
-# Gestión Operativa ADO 2.1
+# GestionADO v2.3
 
-Dashboard conectado a Google Sheets mediante Google Apps Script.
+Dashboard operativo conectado a Google Sheets mediante Apps Script.
 
-## Novedades
+## Cambios v2.3
 
-- Nuevo hallazgo desde el dashboard.
-- Módulo Gerencia con contraseña `X485218x`.
-- Gerencia visualiza todas las regiones combinando consultas por región.
-- Modal para capturar hallazgos.
-- Exportación CSV y PDF por impresión.
+- El módulo Gerencia puede consultar todas las pestañas/regiones del archivo de Google Sheets.
+- Gerencia puede filtrar por región: Villahermosa, Cárdenas, Tuxtla, etc., o ver todo.
+- Nuevo hallazgo guarda directamente en la pestaña de la región seleccionada.
 
-## Importante para guardar nuevos hallazgos
+## Importante
 
-El dashboard ya manda la información con `accion=nuevo`, pero tu Apps Script debe aceptar esa acción.
-
-Incluí el archivo:
+Para que Gerencia vea todas las pestañas en una sola consulta, copia el contenido de:
 
 `APPS_SCRIPT_NUEVO_HALLAZGO.gs`
 
-Puedes usarlo completo o copiar la función `guardarHallazgo(e)` a tu Apps Script actual.
+Dentro de tu proyecto de Google Apps Script y vuelve a implementar la Web App.
 
-## Columnas sugeridas en Google Sheets
-
-La fila 1 de la hoja debe tener estos encabezados:
-
-Folio | Region | Terminal | Area | Hallazgo | Responsable | Fecha | Estatus | PorcentajeCumplimiento | Evidencia | FechaRegistro
-
-Si tu hoja usa nombres diferentes, ajusta el Apps Script o dime los encabezados y lo adapto.
+Si no actualizas el Apps Script, el dashboard intentará consultar región por región como respaldo.
