@@ -12,8 +12,13 @@ async function apiRequest(params={}){
 
 async function obtenerHallazgos(region){
   if(region==='GERENCIA'){
-    const resultados=await Promise.all(REGIONES.map(r=>apiRequest({accion:'consultar',region:r})));
-    return resultados.flat().map(x=>({...x,Region:x.Region||x.region||x.Terminal||''}));
+    const resultados=await Promise.all(
+      REGIONES.map(async r=>{
+        const lista=await apiRequest({accion:'consultar',region:r});
+        return (Array.isArray(lista)?lista:[]).map(x=>({...x,Region:x.Region||x.region||r}));
+      })
+    );
+    return resultados.flat();
   }
   return await apiRequest({accion:'consultar',region});
 }
@@ -41,4 +46,5 @@ function calcularKPIs(datos){let corregidos=0,proceso=0,pendientes=0,suma=0;dato
 function terminalesUnicas(datos){return[...new Set(datos.map(d=>d.Terminal||'Sin terminal'))].sort()}
 function buscarHallazgos(datos,texto){if(!texto)return datos;texto=texto.toLowerCase();return datos.filter(d=>[d.Folio,d.Region,d.Terminal,d.Area,d.Hallazgo,d.Responsable,d.Estatus].some(v=>String(v||'').toLowerCase().includes(texto)))}
 function filtrarEstado(datos,estado){if(!estado||estado==='Todos los estados')return datos;return datos.filter(d=>String(d.Estatus||'').toLowerCase().includes(estado.toLowerCase().replace('en ','')))}
+function filtrarRegion(datos,region){if(!region||region==='-- Mostrar Todas --')return datos;return datos.filter(d=>String(d.Region||'')===region)}
 function filtrarTerminal(datos,terminal){if(!terminal||terminal==='Todas las terminales')return datos;return datos.filter(d=>(d.Terminal||'Sin terminal')===terminal)}

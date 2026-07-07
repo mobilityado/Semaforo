@@ -3,7 +3,7 @@ let datosGlobal=[];
 document.addEventListener('DOMContentLoaded',()=>{
   if(localStorage.getItem('dark')==='1')document.body.classList.add('dark');
   if(localStorage.getItem('region'))mostrarDashboard();
-  ['buscar','filtroEstado','filtroTerminal'].forEach(id=>document.addEventListener(id==='buscar'?'input':'change',e=>{if(e.target.id===id)actualizarDashboard()}));
+  ['buscar','filtroEstado','filtroTerminal','filtroRegion'].forEach(id=>document.addEventListener(id==='buscar'?'input':'change',e=>{if(e.target.id===id)actualizarDashboard()}));
   const form=document.getElementById('formNuevoHallazgo');
   if(form)form.addEventListener('submit',guardarNuevoHallazgo);
 });
@@ -23,10 +23,21 @@ async function cargarDatos(){
   const region=localStorage.getItem('region');
   const data=await obtenerHallazgos(region);
   datosGlobal=(Array.isArray(data)?data:[]).map(normalizar);
+  prepararFiltroGerencia();
   cargarTerminales();
   actualizarDashboard();
   showLoader(false);
   toast('Dashboard actualizado');
+}
+
+function prepararFiltroGerencia(){
+  const esGerencia=localStorage.getItem('region')==='GERENCIA';
+  const combo=document.getElementById('filtroRegion');
+  if(!combo)return;
+  combo.style.display=esGerencia?'block':'none';
+  combo.innerHTML='<option>-- Mostrar Todas --</option>';
+  REGIONES.forEach(r=>combo.innerHTML+=`<option>${r}</option>`);
+  if(!esGerencia)combo.value='-- Mostrar Todas --';
 }
 
 function cargarTerminales(){
@@ -39,6 +50,7 @@ function cargarTerminales(){
 
 function getDatosFiltrados(){
   let datos=[...datosGlobal];
+  datos=filtrarRegion(datos,document.getElementById('filtroRegion')?.value);
   datos=filtrarTerminal(datos,document.getElementById('filtroTerminal').value);
   datos=filtrarEstado(datos,document.getElementById('filtroEstado').value);
   datos=buscarHallazgos(datos,document.getElementById('buscar').value);
@@ -75,7 +87,7 @@ function renderTabla(datos){
 }
 
 async function refrescarDashboard(){await cargarDatos()}
-function limpiarFiltros(){document.getElementById('buscar').value='';document.getElementById('filtroEstado').value='Todos los estados';document.getElementById('filtroTerminal').value='Todas las terminales';actualizarDashboard()}
+function limpiarFiltros(){document.getElementById('buscar').value='';document.getElementById('filtroEstado').value='Todos los estados';document.getElementById('filtroTerminal').value='Todas las terminales';const fr=document.getElementById('filtroRegion');if(fr)fr.value='-- Mostrar Todas --';actualizarDashboard()}
 
 function abrirNuevoHallazgo(){
   const modal=document.getElementById('modalNuevo');

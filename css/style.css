@@ -16,3 +16,13 @@
 .region.gerencia{background:#fff3cd;color:#7a4b00}
 body.dark .btn-light{background:#374151;color:#fff}
 @media(max-width:700px){.form-grid{grid-template-columns:1fr}.header-right{flex-wrap:wrap}.btn-primary{width:100%}}
+
+/* ====== Filtro de Gerencia por región ====== */
+.gerencia-filter{
+  border:1px solid var(--primary)!important;
+  background:#fff;
+}
+body.dark .gerencia-filter{
+  background:#1F2937;
+  color:#fff;
+}
