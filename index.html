@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestión Operativa ADO</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+  <div id="loginScreen" class="login-screen">
+    <div class="login-card">
+      <div class="logo-login">
+        <i class="fa-solid fa-bus"></i>
+        <h1>GESTIÓN ADO</h1>
+        <p>Semáforo Operativo</p>
+      </div>
+      <div class="login-form">
+        <label for="region">Seleccione la Región</label>
+        <select id="region">
+          <option value="">Seleccione...</option>
+          <option>Villahermosa</option>
+          <option>Coatzacoalcos</option>
+          <option>Cárdenas</option>
+          <option>Veracruz</option>
+          <option>Xalapa</option>
+          <option>Teapa</option>
+          <option>Tuxtla</option>
+        </select>
+        <button onclick="entrar()"><i class="fa-solid fa-right-to-bracket"></i> Ingresar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="dashboard" style="display:none;">
+    <aside class="sidebar">
+      <div class="logo"><h2>GESTIÓN</h2><span>ADO</span></div>
+      <nav>
+        <a href="#" class="active"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></a>
+        <a href="#tabla"><i class="fa-solid fa-list-check"></i><span>Hallazgos</span></a>
+        <a href="#"><i class="fa-solid fa-building"></i><span>Terminales</span></a>
+        <a href="#"><i class="fa-solid fa-chart-column"></i><span>Indicadores</span></a>
+        <a href="#" onclick="exportarCSV()"><i class="fa-solid fa-file-excel"></i><span>Exportar Excel</span></a>
+        <a href="#" onclick="window.print()"><i class="fa-solid fa-file-pdf"></i><span>Exportar PDF</span></a>
+        <a href="#" onclick="toggleDarkMode()"><i class="fa-solid fa-moon"></i><span>Modo Oscuro</span></a>
+        <a href="#" onclick="cerrarSesion()"><i class="fa-solid fa-right-from-bracket"></i><span>Salir</span></a>
+      </nav>
+      <div class="sidebar-footer"><small>Versión 2.0</small></div>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <div>
+          <h1>Dashboard Operativo</h1>
+          <p>Seguimiento de hallazgos operativos y cumplimiento</p>
+        </div>
+        <div class="header-right">
+          <div class="region"><i class="fa-solid fa-location-dot"></i><span id="lblRegion"></span></div>
+          <button class="btn-icon" onclick="refrescarDashboard()" title="Actualizar"><i class="fa-solid fa-rotate"></i></button>
+          <div class="avatar"><i class="fa-solid fa-user"></i></div>
+        </div>
+      </header>
+
+      <section class="cards">
+        <div class="card purple"><div><h4>Total Hallazgos</h4><h2 id="kTotal">0</h2><small>Total registrados</small></div><i class="fa-solid fa-clipboard-list"></i></div>
+        <div class="card green"><div><h4>Corregidos</h4><h2 id="kCorregidos">0</h2><small>Hallazgos cerrados</small></div><i class="fa-solid fa-circle-check"></i></div>
+        <div class="card yellow"><div><h4>En Proceso</h4><h2 id="kProceso">0</h2><small>En seguimiento</small></div><i class="fa-solid fa-spinner"></i></div>
+        <div class="card pink"><div><h4>Cumplimiento</h4><h2 id="kCumplimiento">0%</h2><small>Promedio general</small></div><i class="fa-solid fa-chart-pie"></i></div>
+      </section>
+
+      <section class="dashboard-grid main-grid">
+        <div class="chart-card">
+          <h3><i class="fa-solid fa-chart-pie"></i> Avance General</h3>
+          <div class="donut-container"><div class="donut"><div class="donut-center"><h2 id="donutValue">0%</h2><p>CUMPLIMIENTO</p></div></div></div>
+          <div class="legend">
+            <div><span class="green-dot"></span>Corregidos <b id="lCorregidos">0</b></div>
+            <div><span class="yellow-dot"></span>En Proceso <b id="lProceso">0</b></div>
+            <div><span class="red-dot"></span>Pendientes <b id="lPendientes">0</b></div>
+          </div>
+        </div>
+        <div class="chart-card">
+          <h3><i class="fa-solid fa-chart-column"></i> Hallazgos por Terminal</h3>
+          <canvas id="graficaTerminales" height="130"></canvas>
+        </div>
+      </section>
+
+      <section class="dashboard-grid">
+        <div class="chart-card">
+          <h3><i class="fa-solid fa-chart-simple"></i> Distribución por Estatus</h3>
+          <canvas id="graficaEstatus" height="140"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3><i class="fa-solid fa-filter"></i> Filtros</h3>
+          <div class="filters">
+            <select id="filtroTerminal"><option>Todas las terminales</option></select>
+            <select id="filtroEstado">
+              <option>Todos los estados</option>
+              <option>Corregido</option>
+              <option>En Revisión</option>
+              <option>En Proceso</option>
+              <option>Pendiente</option>
+            </select>
+            <input type="text" id="buscar" placeholder="Buscar Folio, Área o Hallazgo...">
+            <button onclick="limpiarFiltros()"><i class="fa-solid fa-broom"></i> Limpiar filtros</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="stats-grid">
+        <div class="mini-card"><h5>Promedio Cumplimiento</h5><h2 id="stPromedio">0%</h2></div>
+        <div class="mini-card"><h5>Pendientes</h5><h2 id="stPendientes">0</h2></div>
+        <div class="mini-card"><h5>Corregidos</h5><h2 id="stCorregidos">0</h2></div>
+        <div class="mini-card"><h5>Total Terminales</h5><h2 id="stTerminales">0</h2></div>
+      </section>
+
+      <section class="table-card">
+        <div class="table-header">
+          <div><h2><i class="fa-solid fa-table"></i> Hallazgos Operativos</h2><small>Seguimiento de acciones correctivas</small></div>
+          <button class="btn-icon text" onclick="exportarCSV()"><i class="fa-solid fa-file-csv"></i> CSV</button>
+        </div>
+        <div class="table-responsive">
+          <table>
+            <thead><tr><th>Folio</th><th>Terminal</th><th>Área</th><th>Hallazgo</th><th>Responsable</th><th>Fecha</th><th>Cumplimiento</th><th>Estatus</th><th>Acciones</th></tr></thead>
+            <tbody id="tabla"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <footer><div>Gestión Operativa ADO</div><div>Desarrollado por Xudapu</div></footer>
+    </main>
+  </div>
+
+  <div id="loader" class="loader-container" style="display:none;"><div class="loader"></div><p>Cargando información...</p></div>
+  <div id="modalEvidencia" class="modal" style="display:none;"><div class="modal-content"><div class="modal-header"><h2><i class="fa-solid fa-camera"></i> Evidencia</h2><button onclick="cerrarModal()"><i class="fa-solid fa-xmark"></i></button></div><div class="modal-body"><img id="imagenEvidencia" src="" alt="Evidencia"></div></div></div>
+  <div id="toast" class="toast" style="display:none;"></div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/login.js"></script>
+</body>
+</html>
