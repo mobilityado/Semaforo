@@ -211,6 +211,54 @@
 
   <div id="toast" class="toast" style="display:none;"></div>
 
+
+
+  <div id="modalEditar" class="modal" style="display:none;">
+    <div class="modal-content modal-lg">
+      <div class="modal-header">
+        <h2><i class="fa-solid fa-pen-to-square"></i> Editar estatus del hallazgo</h2>
+        <button onclick="cerrarEditarHallazgo()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="formEditarHallazgo" class="form-grid">
+        <input type="hidden" name="Folio" id="editFolio">
+        <input type="hidden" name="Region" id="editRegion">
+        <div>
+          <label>Folio</label>
+          <input id="editFolioTexto" disabled>
+        </div>
+        <div>
+          <label>Región</label>
+          <input id="editRegionTexto" disabled>
+        </div>
+        <div class="full">
+          <label>Hallazgo</label>
+          <textarea id="editHallazgoTexto" rows="3" disabled></textarea>
+        </div>
+        <div>
+          <label>Estatus</label>
+          <select name="Estatus" id="editEstatus" required>
+            <option>Pendiente</option>
+            <option>En Proceso</option>
+            <option>En Revisión</option>
+            <option>Corregido</option>
+          </select>
+        </div>
+        <div>
+          <label>% Cumplimiento</label>
+          <input type="number" min="0" max="100" name="PorcentajeCumplimiento" id="editPorcentaje" required>
+        </div>
+        <div class="full">
+          <label>Observaciones</label>
+          <textarea name="Observaciones" id="editObservaciones" rows="3" placeholder="Comentario opcional del cambio..."></textarea>
+        </div>
+        <div class="full form-actions">
+          <button type="button" class="btn-light" onclick="cerrarEditarHallazgo()">Cancelar</button>
+          <button type="submit" class="btn-primary"><i class="fa-solid fa-floppy-disk"></i> Guardar cambios</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script src="js/utils.js"></script>
   <script src="js/api.js"></script>
   <script src="js/charts.js"></script>

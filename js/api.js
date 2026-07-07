@@ -40,6 +40,11 @@ async function crearHallazgo(data){
   return await apiRequest(payload);
 }
 
+async function actualizarHallazgo(data){
+  const payload={accion:'actualizar',...data};
+  return await apiRequest(payload);
+}
+
 function normalizar(item){return{
   Folio:item.Folio||item.folio||'',
   Region:item.Region||item.region||item.__Hoja||'',
