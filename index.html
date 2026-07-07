@@ -34,6 +34,7 @@
           <option>Tuxtla</option>
         </select>
         <button onclick="entrar()"><i class="fa-solid fa-right-to-bracket"></i> Ingresar</button>
+        <button class="btn-gerencia" onclick="entrarGerencia()" type="button"><i class="fa-solid fa-user-shield"></i> Módulo Gerencia</button>
       </div>
     </div>
   </div>
@@ -44,6 +45,7 @@
       <nav>
         <a href="#" class="active"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></a>
         <a href="#tabla"><i class="fa-solid fa-list-check"></i><span>Hallazgos</span></a>
+        <a href="#" onclick="abrirNuevoHallazgo()"><i class="fa-solid fa-circle-plus"></i><span>Nuevo Hallazgo</span></a>
         <a href="#"><i class="fa-solid fa-building"></i><span>Terminales</span></a>
         <a href="#"><i class="fa-solid fa-chart-column"></i><span>Indicadores</span></a>
         <a href="#" onclick="exportarCSV()"><i class="fa-solid fa-file-excel"></i><span>Exportar Excel</span></a>
@@ -51,7 +53,7 @@
         <a href="#" onclick="toggleDarkMode()"><i class="fa-solid fa-moon"></i><span>Modo Oscuro</span></a>
         <a href="#" onclick="cerrarSesion()"><i class="fa-solid fa-right-from-bracket"></i><span>Salir</span></a>
       </nav>
-      <div class="sidebar-footer"><small>Versión 2.0</small></div>
+      <div class="sidebar-footer"><small>Versión 2.1</small></div>
     </aside>
 
     <main class="content">
@@ -62,6 +64,7 @@
         </div>
         <div class="header-right">
           <div class="region"><i class="fa-solid fa-location-dot"></i><span id="lblRegion"></span></div>
+          <button class="btn-primary" onclick="abrirNuevoHallazgo()"><i class="fa-solid fa-plus"></i> Nuevo hallazgo</button>
           <button class="btn-icon" onclick="refrescarDashboard()" title="Actualizar"><i class="fa-solid fa-rotate"></i></button>
           <div class="avatar"><i class="fa-solid fa-user"></i></div>
         </div>
@@ -138,6 +141,71 @@
 
   <div id="loader" class="loader-container" style="display:none;"><div class="loader"></div><p>Cargando información...</p></div>
   <div id="modalEvidencia" class="modal" style="display:none;"><div class="modal-content"><div class="modal-header"><h2><i class="fa-solid fa-camera"></i> Evidencia</h2><button onclick="cerrarModal()"><i class="fa-solid fa-xmark"></i></button></div><div class="modal-body"><img id="imagenEvidencia" src="" alt="Evidencia"></div></div></div>
+
+  <div id="modalNuevo" class="modal" style="display:none;">
+    <div class="modal-content modal-lg">
+      <div class="modal-header">
+        <h2><i class="fa-solid fa-circle-plus"></i> Nuevo hallazgo</h2>
+        <button onclick="cerrarNuevoHallazgo()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="formNuevoHallazgo" class="form-grid">
+        <div>
+          <label>Región</label>
+          <select name="Region" id="nuevoRegion" required>
+            <option>Villahermosa</option>
+            <option>Coatzacoalcos</option>
+            <option>Cárdenas</option>
+            <option>Veracruz</option>
+            <option>Xalapa</option>
+            <option>Teapa</option>
+            <option>Tuxtla</option>
+          </select>
+        </div>
+        <div>
+          <label>Terminal</label>
+          <input name="Terminal" id="nuevoTerminal" placeholder="Ej. Villahermosa" required>
+        </div>
+        <div>
+          <label>Área</label>
+          <input name="Area" placeholder="Ej. Andenes, Taquilla, Sanitarios" required>
+        </div>
+        <div>
+          <label>Responsable</label>
+          <input name="Responsable" placeholder="Nombre del responsable">
+        </div>
+        <div>
+          <label>Fecha compromiso</label>
+          <input type="date" name="Fecha">
+        </div>
+        <div>
+          <label>Estatus</label>
+          <select name="Estatus">
+            <option>Pendiente</option>
+            <option>En Proceso</option>
+            <option>En Revisión</option>
+            <option>Corregido</option>
+          </select>
+        </div>
+        <div>
+          <label>% Cumplimiento</label>
+          <input type="number" min="0" max="100" name="PorcentajeCumplimiento" value="0">
+        </div>
+        <div>
+          <label>URL Evidencia</label>
+          <input name="Evidencia" placeholder="Liga de foto en Drive/SharePoint">
+        </div>
+        <div class="full">
+          <label>Hallazgo</label>
+          <textarea name="Hallazgo" rows="4" placeholder="Describe el hallazgo operativo..." required></textarea>
+        </div>
+        <div class="form-actions full">
+          <button type="button" class="btn-light" onclick="cerrarNuevoHallazgo()">Cancelar</button>
+          <button type="submit" class="btn-primary"><i class="fa-solid fa-floppy-disk"></i> Guardar hallazgo</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <div id="toast" class="toast" style="display:none;"></div>
 
   <script src="js/utils.js"></script>
